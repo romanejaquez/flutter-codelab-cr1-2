@@ -1,0 +1,734 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Flutter Codelab / Coding Roulette #2 - Creating The List Page - Building Layouts in Flutter (Workshop)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="flutter-codelab-cr1-2"
+                  title="Flutter Codelab / Coding Roulette #2 - Creating The List Page - Building Layouts in Flutter (Workshop)"
+                  environment="web"
+                  feedback-link="https://romanjustcodes.web.app">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>Positive This is a continuation of <a href="https://romanejaquez.github.io/flutter-codelab-cr1-1" target="_blank">Flutter Codelab / Coding Roulette #1</a>. Please complete <a href="https://romanejaquez.github.io/flutter-codelab-cr1-1" target="_blank">lab #1</a>.</p>
+<h2 is-upgraded>What You&#39;ll Build in this Workshop:</h2>
+<ul>
+<li>A simple page widget displaying items in a list fashion (ListView)</li>
+<li>Common Flutter Layout strategies using just core widgets</li>
+<li>Creating custom Flutter widgets (AttractionCard, RatingWidget, etc.) and achieve widget composition</li>
+<li>Creating Dart models to mock up app data</li>
+<li>Import network images</li>
+<li>Using Material Icon fonts</li>
+</ul>
+<p class="image-container"><img alt="ListPage" src="img/71ab174189eaec17.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Pre-requisites" duration="0">
+        <ul>
+<li>A computer with a browser</li>
+<li>An internet connection</li>
+</ul>
+<aside class="special"><p>We&#39;ll be using <a href="https://dartpad.dev/" target="_blank">DartPad</a>, a web-based, open-source tool that offers an online playground for learning Dart and Flutter. For more info, visit <a href="https://dart.dev/tools/dartpad" target="_blank">this link</a>.</p>
+</aside>
+<aside class="warning"><p>This is the continuation of <a href="https://romanejaquez.github.io/flutter-codelab-cr1-1" target="_blank">Flutter Codelab / Coding Roulette #1</a>. Please complete <a href="https://romanejaquez.github.io/flutter-codelab-cr1-1" target="_blank">lab #1</a> before completing this one.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the List Page" duration="0">
+        <p>We&#39;ll be creating the list page in order to display all data items in a scrollable list fashion, when the user gets brought into this page from the <strong>SplashPage</strong> we created on the <a href="https://romanejaquez.github.io/flutter-codelab-cr1-1" target="_blank">previous lab</a>.</p>
+<p>Here&#39;s the schematic view of the list page we&#39;ll be tackling:</p>
+<p class="image-container"><img alt="List Page" src="img/736c84974b51904c.png"></p>
+<aside class="special"><p>We&#39;ll focus on the <strong>ListPage</strong> widget from this point on. If you want to always land on the <strong>ListPage</strong> widget upon initializing the app, set the <strong>home</strong> property of the <strong>MaterialApp</strong> widget to be the <strong>ListPage</strong> during development of this widget. Make sure to set it back to the <strong>SplashPage</strong> widget afterwards.</p>
+</aside>
+<h2 is-upgraded>Set up the Scaffold</h2>
+<p>Let&#39;s start by laying down the foundation for this app, and edit the way the <strong>Scaffold</strong> widget looks. Set the <strong><em>backgroundColor</em></strong> property of the <strong>Scaffold</strong> widget to the <strong>mainThemeColor</strong> provided above, as follows:</p>
+<p class="image-container"><img alt="List Page" src="img/f84a7c809681b20f.png"></p>
+<p>Your code should look like this after running it on DartPad:</p>
+<p class="image-container"><img alt="List Page" src="img/ce468448202ad0b7.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the AppBar" duration="0">
+        <p>Set the <strong>AppBar</strong> widget to the <strong>Scaffold</strong> widget in the <strong>ListPage</strong>. Add the following specs:</p>
+<ul>
+<li>elevation: 0</li>
+<li>backgroundColor: transparent</li>
+<li>iconTheme: use an *<strong>IconThemeData</strong> object, and set its <strong>color</strong> property to <strong>white</strong>.</li>
+</ul>
+<p>Your code should look as follows:</p>
+<p class="image-container"><img alt="List Page" src="img/a62db6829327a4ee.png"></p>
+<h2 is-upgraded>Adding a Title Icon</h2>
+<p>Since everything in Flutter is a widget, you can add any widget as the <strong>title</strong> property of the <strong>AppBar</strong> widget, not just a <strong>Text</strong> widget. Let&#39;s set the <strong>title</strong> as an <strong>Icon</strong> widget, using the <strong>Icons.pool</strong> icon with a color of <strong>white</strong>:</p>
+<p class="image-container"><img alt="List Page" src="img/6fcc116a887021fe.png"></p>
+<h2 is-upgraded>Adding Actions to the AppBar</h2>
+<p>The <strong>AppBar</strong> has a property you can use to add additional actions and functionality to it. We&#39;ll add a mocked action item to the <strong>AppBar</strong> widget (no functionality, just a placeholder), just to show you how you can utilize the <strong>AppBar</strong> widget&#39;s <a href="https://api.flutter.dev/flutter/material/AppBar/actions.html" target="_blank"><strong>actions</strong></a> property.</p>
+<aside class="special"><p>The <a href="https://api.flutter.dev/flutter/material/AppBar/actions.html" target="_blank">actions</a> is just a way to add a list of widgets to display after the <strong>title</strong> widget, useful for representing common operations easily accessible.</p>
+</aside>
+<p>We&#39;ll add a <strong>Container</strong> widget with 15px of right margin, wrapping a simple <strong>Icon</strong> widget, color <strong>white</strong>, as follows:</p>
+<p class="image-container"><img alt="List Page" src="img/5dd3a1b0334d89d.png"></p>
+<p>After running it on DartPad, you should see it as output:</p>
+<p class="image-container"><img alt="List Page" src="img/17fdb28cb134a187.png"></p>
+<p>And with that, we&#39;ve set up the <strong>AppBar</strong> for this page! Let&#39;s keep rolling!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Populating the body of the Scaffold / List View" duration="0">
+        <p>Now let&#39;s focus on the <strong>body</strong> property of the <strong>Scaffold</strong> widget, where the <strong>ListView</strong> will reside.</p>
+<p>Let&#39;s start by replacing the existing placeholder content inside the <strong>body</strong> of the <strong>Scaffold</strong> widget (a <strong>Center</strong> widget with a <strong>Text</strong> widget) by a simple <strong>Container</strong> widget. Use the <strong>Container</strong>&#39;s <strong><em>decoration</em></strong> property to set its background color to white, as well as adding top left and top right borders of 50px radius to it:</p>
+<p class="image-container"><img alt="List Page" src="img/248c6dc28a4058df.png"></p>
+<p>Run it on DartPad so you can see the following output - a white background as the main body, with rounded corners at the top:</p>
+<p class="image-container"><img alt="List Page" src="img/49d177ee58d270bc.png"></p>
+<p>Looking pretty nice! Now let&#39;s fill up this container with the rest of the content.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the ListView" duration="0">
+        <p>Now it&#39;s time to lay down the <strong>ListView</strong> widget, which will display all our data in a vertically scrollable container.</p>
+<p class="image-container"><img alt="List Page" src="img/4e03b54930fe4a96.png"></p>
+<p>But where will we get the data to populate this list? We&#39;ll create custom data models based on Dart classes, or what&#39;s commonly known as &#34;Plain Ol&#39; Dart Objects&#34; or PODOs.</p>
+<h2 is-upgraded>Setting up the Attraction Model PODO</h2>
+<p>We need to create the corresponding class that will hold the data fields for the information of each of the attractions that we want to display. We&#39;ll call this class <strong>Attraction</strong> and we&#39;ll add the following properties:</p>
+<ul>
+<li>imgPath (type String): holds the path to the image for this attraction</li>
+<li>name (type String): the name of this attraction</li>
+<li>desc (type String): the description of this attraction</li>
+<li>price (type double): the price value of this attraction package</li>
+<li>locaiton (type String): the geographic location of this attraction</li>
+<li>rating (type int): a value from 0-5 corresponding to this attraction&#39;s rating</li>
+</ul>
+<p>Add a constructor as well to inject corresponding values during instantiation, and your class should look as follows (add it at the bottom of this file if you want - as long as it&#39;s in scope / inside the file - copy / paste the code below):</p>
+<pre><code language="language-flutter" class="language-flutter">class Attraction {
+  String? imgPath;
+  String? name;
+  String? desc;
+  double? price;
+  String? location;
+  int? rating;
+
+  Attraction({this.imgPath, this.name, this.desc, this.price, this.location, this.rating });
+}
+
+</code></pre>
+<h2 is-upgraded>Adding Sample Data</h2>
+<p>With the <strong>Attraction</strong> PODO in place, we&#39;ll also provide some mocked data we&#39;ll use later to feed it into the <strong>ListView</strong> to render sample items for displaying purposes. At the top of the file, add the following <strong>List</strong> of <strong>AttractionModel</strong> objects - called <strong><em>attractionsList</em></strong>, each of which has its required properties populated accordingly (preferably to add it at the top, below the <strong><em>mainThemeColor</em></strong> where all constants and hardcoded values go - copy/paste for convenience):</p>
+<pre><code language="language-flutter" class="language-flutter">final List&lt;Attraction&gt; attractionsList = [
+  Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/275162028.jpg?k=38b638c8ec9ec86624f9a598482e95fa634d49aa3f99da1838cf5adde1a14521&amp;o=&amp;hp=1&#39;,
+      name: &#39;Grand Bavaro Princess&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      location: &#39;Punta Cana, DR&#39;,
+      rating: 3,
+      price: 80.0),
+  Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/232161008.jpg?k=27808fe44ab95f6468e5433639bf117032c8271cebf5988bdcaa0a202b9a6d79&amp;o=&amp;hp=1&#39;,
+      name: &#39;Hyatt Ziva Cap Cana&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      price: 90.0,
+      rating: 4,
+      location: &#39;Punta Cana, DR&#39;),
+  Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/256931299.jpg?k=57b5fb9732cd89f308def5386e221c46e52f48579345325714a310addf819274&amp;o=&amp;hp=1&#39;,
+      name: &#39;Impressive Punta Cana&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      price: 100.0,
+      rating: 5,
+      location: &#39;Punta Cana, DR&#39;),
+   Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/283750757.jpg?k=4f3437bf1e1b077463c9900e4dd015633db1d96da38f034f4b70a4ba3ef76d82&amp;o=&amp;hp=1&#39;,
+      name: &#39;Villas Mar Azul Dreams&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      price: 100.0,
+      rating: 4,
+      location: &#39;Tallaboa, PR&#39;),
+];
+
+</code></pre>
+<p>With all of this in place (PODO classes, mocked data) let&#39;s proceed and add the <strong>ListView</strong> widget.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Adding the ListView widget / Populate with data" duration="0">
+        <p>Back in the <strong>ListPage</strong> widget, inside the main <strong>Container</strong> widget, set its <strong>child</strong> property as a <strong>Column</strong> widget, with its *<strong>crossAlignment</strong> property set to <strong>CrossAlignment.stretch</strong> in order to make the items in the column stretch widthwise and fill the screen:</p>
+<p class="image-container"><img alt="List Page" src="img/db66fcace02f08a.png"></p>
+<p>We want our <strong>ListView</strong> widget to occupy most of the real estate of its parent <strong>Column</strong> widget, so we&#39;ll wrap it inside an <strong>Expanded</strong> widget.  We&#39;ll pretty much wrap everything inside this <a href="https://api.flutter.dev/flutter/widgets/Expanded-class.html" target="_blank"><strong>Expanded</strong></a> widget, which tells its parent (the <strong>Column</strong> widget that contains this custom widget) that the widget inside it will occupy most of the column&#39;s space; the rest of the widgets will only get the space allocated to them based on their dimensions.</p>
+<p class="image-container"><img alt="List Page" src="img/a2cf6cdf34c7bea4.png"></p>
+<p>The <strong>Expanded</strong> widget must have a child, so let&#39;s proceed by adding the next item in the structure: a <strong>ListView</strong> widget.</p>
+<aside class="special"><p>When we wrap widgets that are in a Column or Row inside an <strong>Expanded</strong> widget, is because they will occupy most of the real estate of the parent; in this case, we want the <strong>AttractionListView</strong> widget to take most of the space on its <strong>Column</strong> parent; then let the other sibling widgets fight for the remaining space.</p>
+</aside>
+<p>Let&#39;s add as the immediate child of the <strong>Expanded</strong> widget a <a href="https://api.flutter.dev/flutter/widgets/ListView-class.html" target="_blank"><strong>ListView</strong></a> widget, which provides a scrollable list of widgets arranged linearly.</p>
+<aside class="special"><p>The <strong>ListView</strong> widget is the most commonly used scrolling widget. For more info, visit this <a href="https://api.flutter.dev/flutter/widgets/ListView-class.html" target="_blank">link</a>.</p>
+</aside>
+<p>There are many ways in which you can instantiate a <strong>ListView</strong> widget, but we&#39;ll use a convenient constructore called <strong>builder</strong>, which creates a scrollable, linear array of widgets that are created on demand.</p>
+<aside class="special"><p>The <strong>ListView.builder</strong> constructor is appropriate for list views with a large (or infinite) number of children because the builder is called only for those children that are actually visible.</p>
+</aside>
+<p>Our <strong>ListView.builder</strong> constructor takes several parameters, but we&#39;ll only use the minimum required parameters, as follows:</p>
+<ul>
+<li>itemCount: the number of items that the <strong>ListView</strong> will render for us. Notice we&#39;re using the length of the <strong>attractionsList</strong> collection we created previously.</li>
+<li>itemBuilder: callback that gets triggered for as many items you set in <strong>itemCount</strong> (one for every item in the <strong>attractionsList</strong> collection); returns widgets created on demand as they become visible, for efficiency.</li>
+</ul>
+<p>The <strong>itemBuilder</strong> callback returns the <strong>index</strong> value of the corresponding item being rendered as the user scrolls. Inside of this callback, you must return a <strong>Widget</strong> corresponding to each item to be rendered per list item.</p>
+<p>As a test, let&#39;s return a <strong>Text</strong> widget, and let&#39;s feed it an item in the <strong>attractionsList</strong> collection, corresponding to the <strong>index</strong> provided in the callback. We&#39;ll hold this item in a property called <strong>attr</strong>, as follows:</p>
+<p class="image-container"><img alt="List Page" src="img/56f0e4e24ae0d964.png"></p>
+<p>Running it on DartPad up to this point, we should see the following output:</p>
+<p class="image-container"><img alt="List Page" src="img/8c13c14956a4ce6a.png"></p>
+<p>We see some values being rendered per item on the list - thanks to the mocked data provided earlier!. Now it&#39;s time to give more definition to each of those items by creating some sort of card widget to display its full info.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the ListView AttractionCard widget (top)" duration="0">
+        <p>For each of the items displayed by the <strong>ListView</strong> we must create a unique layout and structure, therefore this lends itself to creating a new specialized widget for displaying its information. We&#39;ll create a custom widget called <strong>AttractionCard</strong> that will display the attraction information in a card-like fashion. See the schematics view of our custom card widget below:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/9b72e23558ead07c.png"></p>
+<h2 is-upgraded>Create the AttractionCard widget class</h2>
+<p>As customary, create the <strong>Widget</strong> class corresponding to the <strong>AttractionCard</strong> widget - make it extend <strong>StatelessWidget</strong> and have it return a dummy <strong>Container</strong> from its <strong>build</strong> method for the time being (you can add this class at the bottom of the page):</p>
+<p class="image-container"><img alt="AttractionCard" src="img/d6bd613330696a58.png"></p>
+<h2 is-upgraded>Inject the Attraction model into this AttractionCard widget</h2>
+<p>This widget, in order to come alive, needs to have its required data injected. For this widget to receive data, let&#39;s create a property of type <strong>Attraction</strong> and a corresponding constructor for it:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/1480661156e30169.png"></p>
+<p>This data will be injected via its constructor inside the <strong>ListView</strong>&#39;s *<strong>itemBuilder</strong> callback method, so let&#39;s go back to the <strong>ListPage</strong> and inside the <strong>itemBuilder</strong> callback, replace the existing return statement by returning a new instance of <strong>AttractionCard</strong> widget, passing the corresponding attraction during the iteration, as follows:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/335f59ce9d220f72.png"></p>
+<aside class="special"><p>Hooking up the <strong>AttractionCard</strong> widget to the <strong>ListView</strong> at this point during development will allow visualizing the card widget come to live as we develop it piece by piece.</p>
+</aside>
+<h2 is-upgraded>Defining the internal structure of the AttractionCard widget</h2>
+<p>Let&#39;s go to our newly added <strong>AttractionCard</strong> widget and start defining the structure for it.</p>
+<aside class="special"><p>We&#39;ll focus only on the <strong>build</strong> method of the <strong>AttractionCard</strong> for brevity</p>
+</aside>
+<p>Start by adding a fixed height to our container of 300px. We want to constrain every attraction card to be this height so as to keep consistency heightwise.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/a1b9616037481cd1.png"></p>
+<p>As the only child of this fixed-height <strong>Container</strong>, add a <strong>Stack</strong> widget. We&#39;ll use the <strong>Stack</strong> to overlay items as we place them in it.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/9a884bc6651ca59e.png"></p>
+<p>Add a <strong>Column</strong> widget with two additional <strong>Container</strong> widgets as the first child of the <strong>Stack</strong> widget above.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/169dffea47ffc3a9.png"></p>
+<p>The reason why we have the two <strong>Container</strong> widgets inside the <strong>Column</strong> widget is because the top <strong>Container</strong> will be the host of the image (background image) and the bottom <strong>Container</strong> will hold the text information of this card.</p>
+<h2 is-upgraded>Setting A Background Image to the top Container widget</h2>
+<p>We&#39;ll use the top <strong>Container</strong> widget in the <strong>Column</strong> to display the attraction image as a background image. First, set the container to a fixed 150px</p>
+<p class="image-container"><img alt="AttractionCard" src="img/6b399af9ad71821c.png"></p>
+<p>Now, use the <strong>decoration</strong> property of the container to set a background image, by setting its <strong><em>image</em></strong> property to a <strong>DecorationImage</strong>, and the <strong>DecorationImage</strong>&#39;s <strong><em>image</em></strong> property to a <strong>NetworkImage</strong> widget. Use the model supplied (<strong><em>attraction</em></strong>) and fetch the image&#39;s path via the <strong><em>imgPath</em></strong> property.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/7f40e17f95b42ea1.png"></p>
+<p>On the <strong>DecorationImage</strong> widget, use the <strong>fit: BoxFit.cover</strong> in order to fill the <strong>Container</strong> while maintaining its aspect ratio:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/15748560e4d56f7a.png"></p>
+<p>Running it on DartPad up to this point, you should see the images start showing in the Preview Pane:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/7efe1f2535ddc4c.png"></p>
+<p>I believe we&#39;re ready to work on the bottom piece of the attraction card now. Proceed to the next step.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the ListView AttractionCard widget (bottom)" duration="0">
+        <p>Now, let&#39;s focus on the bottom portion of the <strong>AttractionCard</strong> widget, where we&#39;ll add the text content to be displayed. Here&#39;s a schematics view of the bottom portion:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/3bd085312c70bcc3.png"></p>
+<p>On the bottom <strong>Container</strong> widget, set it also to be a fixed height (150px), and add a 20px padding all around it, as such:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/7889c519d3fa37cc.png"></p>
+<p>As the only child of this <strong>Container</strong>, add a <strong>Row</strong> widget, since the first level of items will be placed horizontally, spreaded apart by space in between dictated by the system, so set its *<strong>mainAxisAlignment</strong> property to <strong>MainAxisAlignment.spaceBetween</strong>:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/24969a7fe4f3773d.png"></p>
+<p>Following up on the layout described above, now the <strong>Row</strong> should contain two <strong>Column</strong> widgets as its children, with their corresponding <strong>children</strong> property empty as well, as follows:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/4a91b2980c4799d9.png"></p>
+<h2 is-upgraded>Add Text Content of Left Column</h2>
+<aside class="special"><p>For brevity, the code snippets below will only focus on the left column</p>
+</aside>
+<p>Focusing on the content of the left <strong>Column</strong> of the bottom <strong>Container</strong>, let&#39;s dissect it first and see what we&#39;re up against:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/b1b947fa51d20d7e.png"></p>
+<p>On the <strong>Column</strong> widget in question, add the first children <strong>Text</strong> widget, with the following specs:</p>
+<ul>
+<li>Set its content to be the <strong>name</strong> property of the <strong>attraction</strong> model provided via the constructor</li>
+<li>color: black (Colors.black)</li>
+<li>fontSize: 14</li>
+<li>fontWeight: bold (FontWeight.bold)</li>
+</ul>
+<p class="image-container"><img alt="AttractionCard" src="img/8cb067ff4b9fc5ac.png"></p>
+<p>Next up, the widgets containing the location pin and the location information for this attraction. Set this to be a <strong>Row</strong> widget, containing an <strong>Icon</strong> widget as the first child. Use the <strong>Icons.pin_drop</strong> Material Icon. Set its color to grey with a 70% opacity:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/a9ff94685c091059.png"></p>
+<p>Add another <strong>Text</strong> widget displaying the location information - with font size 12px, bold and grey in color with 70% opacity. Add a <strong>SizedBox</strong> widget to simulate some spacing in between the <strong>Icon</strong> and the <strong>Text</strong> widget.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/a02fe608b37066fb.png"></p>
+<p>Take a pause to run the existing code in DartPad so you can start seeing the content coming to fruition in the Preview Pane:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/4a01994782f35df1.png"></p>
+<p>Let&#39;s proceed now to tackle the <strong>RatingWidget</strong> widget. Click <strong>Next</strong> to continue.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the ListView AttractionCard widget / RatingWidget" duration="0">
+        <p class="image-container"><img alt="AttractionCard" src="img/78febf95ce3bb65e.png"></p>
+<aside class="special"><p>In order to accomplish widget composition, you must ensure that the build methods are not too large. For this, you must break your widgets into smaller pieces of functionality or specific features, which in turn become other widgets.</p>
+</aside>
+<p>Let&#39;s create a custom widget that will encapsulate the rating functionality.</p>
+<p>Right under the last <strong>Row</strong> widget we added earlier, inside the left <strong>Column</strong>, add a placeholder <strong>RatingWidget</strong> widget. You will get an error since we haven&#39;t created it yet, but we will in a bit. For now, add it as follows:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/2a7195bbe3e0b7df.png"></p>
+<p>Now let&#39;s create the class that will hold the rating functionality. Let&#39;s call it <strong>RatingWidget</strong>, make it extends <strong>StatelessWidget</strong>. In its <strong>build</strong> method, return a dummy <strong>Row</strong> widget - this is to lay down the foundation for our widget:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/30b738935b0b76e8.png"></p>
+<p>Since this widget will encapsulate the rating functionality, let&#39;s inject the value of the rating via the constructor. Create a property called <strong>rating</strong> as well as its corresponding constructor:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/52113b6b78dc3c3c.png"></p>
+<p>Add as the first child of this <strong>Row</strong> widget, yet another row, as follows:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/66c8e118c75d9374.png"></p>
+<p>This <strong>Row</strong> widget will be the one that will hold the stars together. The parent <strong>Row</strong> widget will then lay out both the star group and the label on the right in a horizontal fashion.</p>
+<p>In order to generate the stars, we&#39;ll use a very useful utility method from the <strong>List</strong> class called <strong><em>generate</em></strong>. This factory method takes two parameters: the length of the list (which we&#39;ll hardcode to 5 for now) and a callback, which will be executed for each of the items in the collection, and will pass an index into the callback - the index corresponding to each item in the iteration. Assign this to the <strong>children</strong> property of the <strong>Row</strong> widget.</p>
+<p>Then, inside the <strong>List.generate</strong> callback, return an <strong>Icon</strong> widget, which will be generated base don how many items we set in the length parameter (5). If the provided index is less than the <strong><em>rating</em></strong> value, then we will display a filled star (i.e. render a full star while iterating through the 5 items, the index falls under the rating) otherwise show it as an outlined star icon. Check out the code:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/bbe35c63c8307a3e.png"></p>
+<p>Let&#39;s see how&#39;s looking. Now, back in the <strong>AttractionCard</strong> widget, go to where we placed the <strong>RatingWidget</strong> placeholder widget, and inject into it the rating value from the <strong><em>attraction</em></strong> model, using the named parameter syntax:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/c79c13242201ac09.png"></p>
+<p>If you run it on DartPad now, you will start seeing the rating stars showing, with their correct amount of filled and unfilled stars. Nice!</p>
+<p class="image-container"><img alt="AttractionCard" src="img/c01a004f08412062.png"></p>
+<p>Let&#39;s wrap this up by adding the star rating label right next to the row of stars and doing some alignment.</p>
+<p>Back to the <strong>RatingWidget</strong>, below the <strong>Row</strong> containing all stars, add some spacing by using a <strong>SizedBox</strong> with a width of 5:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/f8cd689d60dba15e.png"></p>
+<p>Now, let&#39;s proceed and add the label that will show the rating number out of the max number of stars. For now we have it hardcoded at 5, but the rating value will be dynamic. Add it as a <strong>Text</strong> widget, with a 12px font size, color gray with 70% opacity:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/417bdb218929d545.png"></p>
+<p>I believe we&#39;re pretty much done with the <strong>RatingWidget</strong> widget, as we created a very encapsulated widget that represented the rating information.</p>
+<p>Back to the <strong>AttractionCard</strong> widget, in the <strong>Column</strong> widget housing the card left content, add spaces in between, so they have some room to breathe. Use the same <strong>SizedBox</strong> trick and add spaces of 5px of height in betwen them, as such:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/9496331303a403f6.png"></p>
+<p>Now, apply some alignment to the items inside the <strong>Column</strong> by left-aligning all of them, usign the *<strong>crossAxisAlignment</strong> property and set it to <strong>CrossAxisAlignment.start</strong>:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/36e9c4a2aaef6ca8.png"></p>
+<p>Running on DartPad once more, and now we should see our full blown <strong>RatingWidget</strong> with the rest of the content left-aligned, as per the design:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/6fda94c39832ab78.png"></p>
+<p>Let&#39;s work now on the right hand side of the <strong>AttractionCard</strong> which should be pretty straightforward. Let&#39;s go to the next step.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the ListView AttractionCard widget / right side of card" duration="0">
+        <p class="image-container"><img alt="AttractionCard" src="img/f2c0c176fa13d53a.png"></p>
+<p>We&#39;ll be focused on creating the right hand side of the <strong>AttractionCard</strong> widget content, which will consist of a <strong>Column</strong> widget with two <strong>Text</strong> widgets inside, aligned at the bottom and right edge of the column.</p>
+<p>Back in the <strong>AttractionCard</strong> widget, we&#39;ll put our focus now on the second <strong>Column</strong> widget from above. Start by setting its alignment to bottom / right by setting its <strong><em>crossAxisAlignment</em></strong> to <strong>CrossAxisAlignment.end</strong> and its <strong><em>mainAxisAlignment</em></strong> to <strong>MainAxisAlignment.end</strong> respectively, as such:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/9bb4d72fa067824c.png"></p>
+<p>Now, as its children, start by adding a <strong>Text</strong> widget for the price information, color black, font size 16px and bold. For displaying the <strong>price</strong> property in a <strong>Text</strong> widget, use the factory method *<strong>toStringAsFixed</strong>, passing the number of decimal places after the value. See the code below:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/477789b4e28958bb.png"></p>
+<p>Add the next label, which will only show the hardcoded text &#34;Per night&#34;, in gray color with 70% opacity, font size 12px and bold:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/f580034ea8cf027c.png"></p>
+<p>Add some space in between the <strong>Text</strong> widgets by using the <strong>SizedBox</strong> trick from before, setting a height of 5px in between them:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/a4682ca83157c9b5.png"></p>
+<p>And running the app on DartPad up to this point will show you the whole bottom piece of the attraction card already in place! We&#39;re on a roll!</p>
+<p class="image-container"><img alt="AttractionCard" src="img/b3e092aa3478ab7.png"></p>
+<p>Let&#39;s now add the floating favorite button, as per in the design. Click <strong>Next</strong> to proceed to the next step.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the ListView AttractionCard / Floating Fav Button" duration="0">
+        <p class="image-container"><img alt="AttractionCard" src="img/2164efd32455fe6e.png"></p>
+<p>We&#39;ll implement the floating favorite button as another child on the <strong>Stack</strong> widget, placed on top of all items, and aligned right / center of the overall container, so let&#39;s proceed.</p>
+<p>Back again on the <strong>AttractionCard</strong>&#39;s <strong>Stack</strong> widget, let&#39;s start by adding a <strong>Container</strong> widget with fixed dimensions, with margin only on the right side of 10px:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/ade016ff0c1581bd.png"></p>
+<p>This <strong>Container</strong> widget now will have a background color and rounded edges so as to make it look like a circle. Proceed to set its <strong>decoration</strong> property to a <strong>BoxDecoration</strong> object, to which  you&#39;ll set its color to the <strong>mainTheme</strong> color, border radius of 40px:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/3df151e7fd98bd1.png"></p>
+<p>To give it some depth, apply a box shadow to the <strong>Container</strong>&#39;s <strong><em>decoration</em></strong>, with a blur radius of 10px, use the <strong><em>mainThemeColor</em></strong> as its color, and setting its offset to <strong>Offset.zero</strong>, as follows:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/a442cc3e3f50595f.png"></p>
+<p>Now you need to add a child to this container: the favorite icon!</p>
+<p>As the child of this <strong>Container</strong> widget, set it to be an <strong>Icon</strong> widget, using the <strong>Icons.favorite</strong> icon, setting it to white, with a size of 15:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/83006f09bf895579.png"></p>
+<p>If you try to preview it now by running it on DartPad, you will notice the item shows at the top left corner of the Stack - because that&#39;s the default location for items added to the Stack (0,0), unless you apply an alignment to them. Here comes the <strong>Align</strong> widget to the rescue!</p>
+<p>Wrap the <strong>Container</strong> widget around an <strong>Align</strong> widget, and set its <strong>alignment</strong> property to <strong>Alignment.centerRight</strong>, as per our design:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/37c8be88bd8092ab.png"></p>
+<p>Taking it for a spin one more time on DartPad by running it, and now we see the floating fav button showing in its rightful place - center and right of the attraction card!</p>
+<p class="image-container"><img alt="AttractionCard" src="img/6e23a03f1eae34.png"></p>
+<p>Now let&#39;s put the final touches on this <strong>AttractionCard</strong> widget by adding the rounded corners and shadow to it shall we? Click <strong>Next</strong> to proceed.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the ListView AttractionCard / Rounded Corners and Shadow" duration="0">
+        <p>For the final touch on the <strong>AttractionCard</strong>, we&#39;ll apply some aesthetics and add rounded edges and a sense of depth by adding a shadow to it. We&#39;ll use a <strong>ClipRRect</strong> widget for clipping the contents of this widget, as well as wrapping the whole thing inside a <strong>Container</strong> to then apply a shadow to it. Let&#39;s proceed.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/704a35ead98507c9.png"></p>
+<p>Wrap the root <strong>Container</strong> widget of the <strong>AttractionCard</strong> widget (the one returned by the <strong>build</strong> method) inside a <strong>ClipRRect</strong> widget, with the border radius set to 40px:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/a5dd759ca6e0e286.png"></p>
+<p>And once again, wrap the whole thing (this time, the <strong>ClipRRect</strong> widget) inside yet another <strong>Container</strong> widget. This widget will provide the required margin and shadow to the overall structure. To this <strong>Container</strong> widget, apply a margin all around of 20px, with a white background, replicating the border radius of the <strong>ClipRRect</strong> (border radius of 40px), and a box shadow with a blur radius of 20, color black with 10% opacity and offset zero, as follows:</p>
+<p class="image-container"><img alt="AttractionCard" src="img/76abf1685c4ec40a.png"></p>
+<p>Looking good! I think this is pretty much all for the <strong>AttractionCard</strong>. Let&#39;s take care of one last thing before we wrap up - I promise it will be worth it! Go to the next step to check it out.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Final touch: Clip the edges of the 
+ListPage main Container" duration="0">
+        <p>With all <strong>AttractionCard</strong> widgets visible and inside the <strong>ListView</strong>, try scrolling the <strong>ListView</strong> items up, so as to show them cut off at the top a bit. Notice something? The parent <strong>Container</strong> widget inside the <strong>Scaffold</strong>&#39;s <strong><em>body</em></strong> is not clipping the contents, although it has a border radius applied to it.</p>
+<p>Well, this is what the <strong>ClipRRect</strong> was design for!</p>
+<p class="image-container"><img alt="AttractionCard" src="img/611bdc9bf3f45df8.png"></p>
+<p>At the <strong>ListPage</strong> widget, the <strong>Container</strong> widget set to the body of the <strong>Scaffold</strong>, wrap it inside a <strong>ClipRRect</strong> widget, but only clip the borders to the top left and top right corners, so as to match the rounded corners of the underlying <strong>Container</strong> and giving it the desired effect.</p>
+<p class="image-container"><img alt="AttractionCard" src="img/d520f7595d3a7c4b.png"></p>
+<p>Take it for a final lap through DartPad by hitting Run, and how you should see the <strong>AttractionCard</strong> widget, in its full glory, fully fleshed out as per our design - fully custom-made, and property being cut off at the top when scrolling is performed. Kudos to you for making this far!</p>
+<p class="image-container"><img alt="AttractionCard" src="img/9c68d1516172ab6b.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrap-up" duration="0">
+        <p>Congrats in making it this far! In this codelab, we accomplished the following:</p>
+<ul>
+<li>Created a list page application</li>
+<li>Customized the AppBar to our design</li>
+<li>Implemented a ListView widget with mocked data</li>
+<li>Implemented custom ListView items as a separate widget called AttractionCard</li>
+<li>The AttractionCard widget was further split into other widgets, such as the RatingWidget</li>
+<li>Implemented core widgets such as Stacks, Columns, Rows, Containers and Text widgets</li>
+</ul>
+<p>In the next codelab, we&#39;ll flesh out the <strong>BottomBar</strong> widget and learn more about creating custom widgets. See you there!</p>
+<h3 is-upgraded>Please don&#39;t forget to follow me on social media:</h3>
+<ul>
+<li>On Twitter (<a href="https://www.twitter.com/drcoderz" target="_blank">@drcoderz</a>)</li>
+<li>On YouTube (<a href="https://www.youtube.com/channel/UCKsp3r1ERjCpKJtD2n5WtPg" target="_blank">Roman Just Codes</a>)</li>
+<li>On My <a href="https://romanjustcodes.web.app/#/home" target="_blank">Personal Portfolio</a></li>
+<li>On <a href="https://medium.com/@romanejaquez" target="_blank">Medium</a></li>
+<li>On <a href="https://www.linkedin.com/in/roman-jaquez-8941a424/" target="_blank">LinkedIn</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Complete Code" duration="0">
+        <p>In case you fell behind on this codelab, below is the whole code for this codelab in a way you can copy / paste directly into DartPad:</p>
+<pre><code language="language-flutter" class="language-flutter">import &#39;package:flutter/material.dart&#39;;
+
+const Color mainThemeColor = Color(0xFF272D8D);
+
+final List&lt;Attraction&gt; attractionsList = [
+  Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/275162028.jpg?k=38b638c8ec9ec86624f9a598482e95fa634d49aa3f99da1838cf5adde1a14521&amp;o=&amp;hp=1&#39;,
+      name: &#39;Grand Bavaro Princess&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      location: &#39;Punta Cana, DR&#39;,
+      rating: 3,
+      price: 80.0),
+  Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/232161008.jpg?k=27808fe44ab95f6468e5433639bf117032c8271cebf5988bdcaa0a202b9a6d79&amp;o=&amp;hp=1&#39;,
+      name: &#39;Hyatt Ziva Cap Cana&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      price: 90.0,
+      rating: 4,
+      location: &#39;Punta Cana, DR&#39;),
+  Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/256931299.jpg?k=57b5fb9732cd89f308def5386e221c46e52f48579345325714a310addf819274&amp;o=&amp;hp=1&#39;,
+      name: &#39;Impressive Punta Cana&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      price: 100.0,
+      rating: 5,
+      location: &#39;Punta Cana, DR&#39;),
+   Attraction(
+      imgPath:
+          &#39;https://cf.bstatic.com/xdata/images/hotel/max1024x768/283750757.jpg?k=4f3437bf1e1b077463c9900e4dd015633db1d96da38f034f4b70a4ba3ef76d82&amp;o=&amp;hp=1&#39;,
+      name: &#39;Villas Mar Azul Dreams&#39;,
+      desc: &#39;All-Inclusive Resort&#39;,
+      price: 100.0,
+      rating: 4,
+      location: &#39;Tallaboa, PR&#39;),
+];
+
+void main() {
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false, 
+      home: SplashPage()
+    )
+  );
+}
+
+class SplashPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) =&gt; ListPage())
+      );
+    });
+
+    return Stack(
+      children: [
+        Container(
+          color: mainThemeColor
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.pool, 
+            color: Colors.white, 
+            size: 80
+          )
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: LinearProgressIndicator(
+            valueColor: AlwaysStoppedAnimation&lt;Color&gt;(
+              Colors.white.withOpacity(0.4)
+            )
+          )
+        )
+      ],
+    );
+  }
+}
+
+class ListPage extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.white),
+        elevation: 0,
+        title: Icon(Icons.pool, color: Colors.white),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15),
+            child: Icon(
+              Icons.notifications, 
+              color: Colors.white
+            )
+          )
+        ]
+      ),
+      backgroundColor: mainThemeColor,
+      body: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50)
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50)
+            )
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: attractionsList.length,
+                  itemBuilder: (context, index) {
+                    Attraction attr = attractionsList[index];
+
+                    return AttractionCard(attraction: attr);
+                  })
+              )
+            ]
+          )
+        )
+      )
+    );
+  }
+}
+
+class AttractionCard extends StatelessWidget {
+
+  Attraction? attraction;
+  AttractionCard({ this.attraction });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 20,
+            offset: Offset.zero,
+            color: Colors.black.withOpacity(0.1)
+          )
+        ]
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: Container(
+          height: 300,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(attraction!.imgPath!),
+                        fit: BoxFit.cover
+                      )
+                    )
+                  ),
+                  Container(
+                    height: 150,
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(attraction!.name!, 
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize:14,
+                                fontWeight:FontWeight.bold
+                              )
+                            ),
+                            SizedBox(width: 5),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.pin_drop,
+                                  color: Colors.grey.withOpacity(0.7),
+                                  size: 12
+                                ),
+                                SizedBox(width: 5),
+                                Text(attraction!.location!,
+                                  style: TextStyle(
+                                    fontSize: 12, 
+                                    color: Colors.grey.withOpacity(0.7), 
+                                    fontWeight: FontWeight.bold
+                                  )
+                                ),
+                              ]
+                            ),
+                            SizedBox(width: 5),
+                            RatingWidget(rating: attraction!.rating!)
+                          ]
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(&#39;\$${attraction!.price!.toStringAsFixed(2)}&#39;,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize:16,
+                                fontWeight: FontWeight.bold
+                              )
+                            ),
+                            SizedBox(height: 5),
+                            Text(&#39;Per Night&#39;,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.withOpacity(0.7),
+                                fontWeight: FontWeight.bold
+                              )
+                            )
+                          ],
+                        )
+                      ]
+                    )
+                  )
+                ],
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  child: Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                    size: 15
+                  ),
+                  margin: EdgeInsets.only(right: 10),
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: mainThemeColor,
+                    borderRadius: BorderRadius.circular(40),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: mainThemeColor.withOpacity(0.5),
+                        offset:Offset.zero
+                      )
+                    ]
+                  )
+                )
+              )
+            ],
+          )
+        )
+      )
+    );
+  }
+}
+
+class RatingWidget extends StatelessWidget {
+
+  int? rating;
+  RatingWidget({ this.rating });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Row(
+          children: List.generate(5, (index) {
+            return Icon(
+              index &lt; this.rating! ? Icons.star : Icons.star_border,
+              color: Colors.yellow
+            );
+          })
+        ),
+        SizedBox(width: 5),
+        Text(&#39;${this.rating!}/5 Reviews&#39;,
+           style: TextStyle(
+             fontSize: 12, 
+             color: Colors.grey.withOpacity(0.7)
+          )
+        )
+      ],
+    );
+  }
+}
+
+class Attraction {
+  String? imgPath;
+  String? name;
+  String? desc;
+  double? price;
+  String? location;
+  int? rating;
+
+  Attraction({this.imgPath, this.name, this.desc, this.price, this.location, this.rating });
+}
+
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
